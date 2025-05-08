@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.RegistrarseController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.IniciarSesionController">
    <children>
       <HBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0" style="-fx-background-color: #0685BC;">
          <children>
@@ -82,7 +82,7 @@
             <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="337.0">
                <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
                   <Label fx:id="errorfecha" text="no tienes mas de 16" textFill="#ee0202" visible="false" />
                </children>
             </HBox>

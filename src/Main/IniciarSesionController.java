@@ -6,7 +6,10 @@ package Main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -15,6 +18,13 @@ import javafx.fxml.Initializable;
  */
 public class IniciarSesionController implements Initializable {
 
+    @FXML
+    private Label errorcor;
+    @FXML
+    private Label errorcon;
+    @FXML
+    private Label errorfecha;
+
     /**
      * Initializes the controller class.
      */
@@ -22,5 +32,10 @@ public class IniciarSesionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void cerrar(ActionEvent event) {
+        errorcon.getScene().getWindow().hide();
+    }
     
 }

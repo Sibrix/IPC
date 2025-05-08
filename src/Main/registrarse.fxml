@@ -122,7 +122,7 @@
                   <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
                      </children>
                   </HBox>
                </children>
