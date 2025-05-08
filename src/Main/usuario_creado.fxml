@@ -15,19 +15,18 @@
                <children>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  Usuario creado ! ">
                      <font>
-                        <Font size="14.0" />
-                     </font></Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ahora inicia sesión ">
-                     <font>
-                        <Font size="14.0" />
+                        <Font size="22.0" />
                      </font></Text>
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="113.0" layoutY="71.0" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" layoutY="71.0" prefHeight="100.0" prefWidth="313.0">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Aceptar" textFill="WHITE" />
+            <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Iniciar sesion" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
       </HBox>
    </children>

@@ -43,7 +43,7 @@ public class MainController implements Initializable   {
         Parent root = FXMLLoader.load(getClass().getResource("iniciarSesion.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
-        stage.setTitle("Puntos de interes UPV");
+        stage.setTitle("INICIO DE SESION");
         stage.setScene(scene);
         stage.show();
     }
@@ -54,7 +54,7 @@ public class MainController implements Initializable   {
         Parent root = FXMLLoader.load(getClass().getResource("registrarse.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
-        stage.setTitle("Puntos de interes UPV");
+        stage.setTitle("REGISTRARSE");
         stage.setScene(scene);
         stage.show();
     }
