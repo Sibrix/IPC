@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Iniciar Sesión" textAlignment="CENTER" textOverrun="CLIP">
+                  <Button fx:id="ini" mnemonicParsing="false" onAction="#inicio_de_sesion" text="Iniciar Sesión" textAlignment="CENTER" textOverrun="CLIP">
                      <font>
                         <Font name="DejaVu Sans ExtraLight" size="18.0" />
                      </font>
