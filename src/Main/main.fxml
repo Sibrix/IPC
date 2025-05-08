@@ -27,7 +27,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Registrarse" textAlignment="CENTER" textOverrun="CLIP">
+                  <Button mnemonicParsing="false" onAction="#registrarse" text="Registrarse" textAlignment="CENTER" textOverrun="CLIP">
                      <font>
                         <Font name="DejaVu Sans ExtraLight" size="18.0" />
                      </font>

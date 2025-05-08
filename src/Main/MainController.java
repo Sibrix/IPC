@@ -47,5 +47,16 @@ public class MainController implements Initializable   {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    private void registrarse(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("registrarse.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("Puntos de interes UPV");
+        stage.setScene(scene);
+        stage.show();
+    }
     
 }
