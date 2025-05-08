@@ -26,8 +26,8 @@
       </HBox>
       <GridPane prefHeight="159.0" prefWidth="599.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="388.66668701171875" minWidth="10.0" prefWidth="388.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.33331298828125" minWidth="10.0" prefWidth="212.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -35,7 +35,7 @@
             <RowConstraints maxHeight="101.33334350585938" minHeight="10.0" prefHeight="62.99998982747397" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+            <VBox prefHeight="63.0" prefWidth="324.0" GridPane.rowIndex="1">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -45,7 +45,7 @@
                            </HBox.margin></Label>
                      </children>
                   </HBox>
-                  <TextField prefHeight="11.0" prefWidth="251.0">
+                  <TextField fx:id="usuario" onKeyPressed="#cambioDeUsuario" prefHeight="11.0" prefWidth="251.0" promptText="De 6 a 15 caracteres con letras mayusculas, minisculas o guiones">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></TextField>
@@ -59,27 +59,33 @@
                         <Label text="      Contraseña:" />
                      </children>
                   </HBox>
-                  <PasswordField>
+                  <PasswordField fx:id="contraseña" onKeyTyped="#cambioDeContraseña">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></PasswordField>
                </children>
             </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="errorcor" text="Usuario no enconcatrado" textFill="#e40505" visible="false" />
+                  <Label fx:id="erroruser" textFill="RED">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="errorcon" text="Contraseña no encontrada" textFill="#f20404" visible="false" />
+                  <Label fx:id="errorcon" textFill="#f20404">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Label>
                </children>
             </HBox>
          </children>
       </GridPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
+            <Button mnemonicParsing="false" onAction="#inicioSesion" style="-fx-background-color: #0685BC;" text="Iniciar Sesion" textAlignment="CENTER" textFill="WHITE" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="337.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
