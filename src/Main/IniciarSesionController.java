@@ -21,8 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import model.NavDAOException;
 import model.User;
 import static modelos.alerta.mostrarAlerta;
+import model.Navigation;
 
 /**
  * FXML Controller class
@@ -58,19 +60,22 @@ public class IniciarSesionController implements Initializable {
 
 
     @FXML
-    private void inicioSesion(ActionEvent event) throws IOException {
+    private void inicioSesion(ActionEvent event) throws IOException, NavDAOException {
+        Navigation nav = Navigation.getInstance();
         if (usuario.getText().isEmpty() || contraseña.getText().isEmpty()){
             mostrarAlerta("Error","Usuario o contraseña vacíos",Alert.AlertType.ERROR,null);
             return;
         }
-        if ( !User.checkNickName(usuario.getText())){
-          erroruser.setText("Usuario no valido");
+        if (!User.checkPassword(contraseña.getText()) && !User.checkNickName(usuario.getText())){
+          mostrarAlerta("Error","Usuario o contraseña no validos",Alert.AlertType.ERROR,null);
+          return;
         }
-        else if( !User.checkPassword(contraseña.getText())){
-          errorcon.setText("Contraseña no valida");
+        else if(!nav.exitsNickName(usuario.getText()) || null == nav.authenticate(usuario.getText(), contraseña.getText())){
+           mostrarAlerta("Error","Usuario o contraseña no existen",Alert.AlertType.ERROR,null);
+           return;
         }
         else{
-            Stage stage = new Stage();
+        Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/CartaNautica/FXMLDocument.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
@@ -89,6 +94,10 @@ public class IniciarSesionController implements Initializable {
     @FXML
     private void cambioDeContraseña(KeyEvent event) {
         errorcon.setText("");
+    }
+
+    private Object authenticate(String text, String text0) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
