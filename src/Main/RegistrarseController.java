@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import model.User;
 
 /**
  * FXML Controller class
@@ -26,18 +28,36 @@ public class RegistrarseController implements Initializable {
     private Label errorfecha;
     @FXML
     private Label errorus;
-
+    private TextField campoCorreo;
+    @FXML
+    private Label correo;
+    @FXML
+    private TextField campocorreo;
+    
     /**
      * Initializes the controller class.
+     * @param url
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        errorcor.setText("");
     }    
 
     @FXML
     private void cerrar(ActionEvent event) {
         errorcon.getScene().getWindow().hide();
+    }
+    
+    @FXML
+    private void aceptarreg(ActionEvent event) {
+        String correo = campoCorreo.getText();
+        if (correo == null || correo.trim().isEmpty() ) {
+            errorcor.setText("El campo no puede estar vacío");
+        } else if (!User.checkEmail(correo)) {
+             errorcor.setText("Correo no válido");
+        } else {
+            errorcor.setText("");
+        }
     }
     
 }
