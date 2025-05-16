@@ -9,9 +9,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.User;
+import static modelos.alerta.mostrarAlerta;
 
 /**
  * FXML Controller class
@@ -54,7 +56,7 @@ public class RegistrarseController implements Initializable {
         if (correo == null || correo.trim().isEmpty() ) {
             errorcor.setText("El campo no puede estar vacío");
         } else if (!User.checkEmail(correo)) {
-             errorcor.setText("Correo no válido");
+             mostrarAlerta("Error","Correo no válido",Alert.AlertType.ERROR,null);
         } else {
             errorcor.setText("");
         }

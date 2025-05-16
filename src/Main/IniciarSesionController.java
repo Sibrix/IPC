@@ -76,13 +76,14 @@ public class IniciarSesionController implements Initializable {
         }
         else{
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/CartaNautica/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("pantalla_inicio.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
         stage.setTitle("CartaNautica");
         stage.setScene(scene);
         stage.show();
         erroruser.getScene().getWindow().hide();
+        
         }
     }
 
