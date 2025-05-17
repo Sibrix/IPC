@@ -67,6 +67,14 @@ public class RegistrarseController implements Initializable {
     private Button avatar;
     @FXML
     private Button registrarse;
+    @FXML
+    private Button infous;
+    @FXML
+    private Button infous1;
+    @FXML
+    private Button infous2;
+    @FXML
+    private Button infous3;
     
     /**
      * Initializes the controller class.
@@ -144,6 +152,44 @@ public class RegistrarseController implements Initializable {
             e.printStackTrace();
         }
     }
+    }
+
+    @FXML
+    private void info_us(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe tener entre 6 y 15 caracteres,\n" +
+                          "sin espacios. Se permiten guiones o subguiones");
+    alerta.showAndWait();
+    }
+
+    @FXML
+    private void info_cor(ActionEvent event) {
+         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe ser un correo válido");
+    alerta.showAndWait();
+    }
+
+    @FXML
+    private void info_con(ActionEvent event) {
+         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe tener entre 8 y 20 caracteres,\n" +
+                          "con mayúsculas, minúsculas, dígitos y un carácter especial");
+    alerta.showAndWait();
+    }
+
+    @FXML
+    private void info_date(ActionEvent event) {
+         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("El usuario debe tener mas de 16 años" );
+    alerta.showAndWait();
     }
     
 }
