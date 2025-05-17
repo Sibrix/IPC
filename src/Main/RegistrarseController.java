@@ -65,6 +65,8 @@ public class RegistrarseController implements Initializable {
     private Image avatarSeleccionado = null;
     @FXML
     private Button avatar;
+    @FXML
+    private Button registrarse;
     
     /**
      * Initializes the controller class.
@@ -110,8 +112,11 @@ public class RegistrarseController implements Initializable {
         
          User nuevo = Navigation.getInstance().registerUser(nick, email, password, avatarSeleccionado, birthdate);
          if (nuevo != null) {
-             mensajeerror.setText("Usuario registrado correctamente");
-             Stage stage = new Stage();
+             mensajeerror.setText("Usuario registrado correctamente");            
+         } else {
+             mensajeerror.setText("Error al registrar usuario");
+         }
+         Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
             Scene scene = new Scene(root);
@@ -119,10 +124,6 @@ public class RegistrarseController implements Initializable {
             stage.setScene(scene);
             stage.show();
             stage.close();
-             
-         } else {
-             mensajeerror.setText("Error al registrar usuario");
-         }
     }
 
     @FXML

@@ -127,7 +127,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#aceptarreg" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
+                        <Button fx:id="registrarse" mnemonicParsing="false" onAction="#aceptarreg" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </HBox>
                </children>
