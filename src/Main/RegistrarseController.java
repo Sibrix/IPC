@@ -4,14 +4,31 @@
  */
 package Main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import model.NavDAOException;
+import model.Navigation;
 import model.User;
 import static modelos.alerta.mostrarAlerta;
 
@@ -35,6 +52,19 @@ public class RegistrarseController implements Initializable {
     private Label correo;
     @FXML
     private TextField campocorreo;
+    @FXML
+    private TextField campoNick;
+    @FXML
+    private PasswordField campoPas;
+    @FXML
+    private DatePicker campoDate;
+    @FXML
+    private Label mensajeerror;
+    @FXML
+    private ImageView imagen_avatar;
+    private Image avatarSeleccionado = null;
+    @FXML
+    private Button avatar;
     
     /**
      * Initializes the controller class.
@@ -51,15 +81,68 @@ public class RegistrarseController implements Initializable {
     }
     
     @FXML
-    private void aceptarreg(ActionEvent event) {
-        String correo = campoCorreo.getText();
-        if (correo == null || correo.trim().isEmpty() ) {
-            errorcor.setText("El campo no puede estar vacío");
-        } else if (!User.checkEmail(correo)) {
-             mostrarAlerta("Error","Correo no válido",Alert.AlertType.ERROR,null);
-        } else {
-            errorcor.setText("");
+    private void aceptarreg(ActionEvent event) throws NavDAOException, IOException {
+        String nick = campoNick.getText().trim();
+        String email = campocorreo.getText().trim();
+        String password = campoPas.getText();
+        LocalDate birthdate = campoDate.getValue();
+        
+        if (nick.isEmpty() || email.isEmpty() || password.isEmpty() || birthdate == null) {
+            mensajeerror.setText ("Todos los campos son obligatorios");
+            return;
         }
+        if (!User.checkNickName(nick)) {
+            errorus.setText("Este usuario ya existe");
+            return ;
+        }
+        if (!User.checkEmail(email)) {
+            errorcor.setText("Correo no válido");
+            return ;
+        }
+        if (!User.checkPassword(password)) {
+            errorcon.setText("Contraseña no válida");
+            return ;
+        }
+        if (birthdate.isAfter(LocalDate.now().minusYears(16))) {
+            errorfecha.setText("Debes tener al menos 16 años");
+            return ;
+        }
+        
+         User nuevo = Navigation.getInstance().registerUser(nick, email, password, avatarSeleccionado, birthdate);
+         if (nuevo != null) {
+             mensajeerror.setText("Usuario registrado correctamente");
+             Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+            Scene scene = new Scene(root);
+            stage.setTitle("REGISTRADO");
+            stage.setScene(scene);
+            stage.show();
+            stage.close();
+             
+         } else {
+             mensajeerror.setText("Error al registrar usuario");
+         }
+    }
+
+    @FXML
+    private void cambio_avatar(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Seleccionar avatar");
+    fileChooser.getExtensionFilters().addAll(
+        new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+    );
+
+    File archivo = fileChooser.showOpenDialog(null);
+
+    if (archivo != null) {
+        try {
+            avatarSeleccionado = new Image(new FileInputStream(archivo));
+            imagen_avatar.setImage(avatarSeleccionado);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     }
     
 }

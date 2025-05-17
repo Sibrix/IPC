@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -27,8 +29,9 @@
       </HBox>
       <GridPane prefHeight="325.0" prefWidth="600.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="255.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="170.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="141.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -48,7 +51,7 @@
                            </HBox.margin></Label>
                      </children>
                   </HBox>
-                  <TextField prefHeight="11.0" prefWidth="251.0">
+                  <TextField fx:id="campoNick" prefHeight="11.0" prefWidth="251.0">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></TextField>
@@ -56,7 +59,10 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <children>
+                  <Label fx:id="mensajeerror" text="error" textFill="RED" visible="false" />
+               </children></HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
@@ -78,7 +84,7 @@
                         <Label text="      Contraseña:" />
                      </children>
                   </HBox>
-                  <PasswordField>
+                  <PasswordField fx:id="campoPas">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></PasswordField>
@@ -91,40 +97,54 @@
                         <Label text="      Fecha de nacimiento:" />
                      </children>
                   </HBox>
-                  <DatePicker>
+                  <DatePicker fx:id="campoDate">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></DatePicker>
                </children>
             </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <Label fx:id="errorus" alignment="TOP_CENTER" text="usuario no válido" textAlignment="CENTER" textFill="#f20606" visible="false" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="errorcor" text="correo no válido" textFill="#e40505" visible="false" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Label fx:id="errorcon" text="contraseña no válida" textFill="#f20404" visible="false" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Label fx:id="errorfecha" text="no tienes mas de 16" textFill="#ee0202" visible="false" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Button mnemonicParsing="false" onAction="#aceptarreg" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#aceptarreg" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
+               </children>
+            </HBox>
+            <ImageView fx:id="imagen_avatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../Downloads/vecteezy_user-icon-design_9267561.png" />
+               </image>
+            </ImageView>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <Button fx:id="avatar" mnemonicParsing="false" onAction="#cambio_avatar" style="-fx-background-color: #0685bc;" text="cambiar avatar" textFill="WHITE" />
                </children>
             </HBox>
          </children>
