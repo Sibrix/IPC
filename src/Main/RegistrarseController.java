@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -94,7 +95,7 @@ public class RegistrarseController implements Initializable {
     private void aceptarreg(ActionEvent event) throws NavDAOException, IOException {
         String nick = campoNick.getText().trim();
         String email = campocorreo.getText().trim();
-        String password = campoPas.getText();
+        String password = campoPas.getText().trim();
         LocalDate birthdate = campoDate.getValue();
         
         if (nick.isEmpty() || email.isEmpty() || password.isEmpty() || birthdate == null) {
@@ -120,7 +121,18 @@ public class RegistrarseController implements Initializable {
         
          User nuevo = Navigation.getInstance().registerUser(nick, email, password, avatarSeleccionado, birthdate);
          if (nuevo != null) {
-             mensajeerror.setText("Usuario registrado correctamente");            
+             mensajeerror.setText("Usuario registrado correctamente");     
+             try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("iniciarSesion.fxml"));
+                Parent root = loader.load();
+
+                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                 stage.setScene(new Scene(root));
+                 stage.show();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                         mensajeerror.setText("No se pudo cargar la pantalla de inicio de sesión.");
+                            }
          } else {
              mensajeerror.setText("Error al registrar usuario");
          }
