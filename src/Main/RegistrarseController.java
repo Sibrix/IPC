@@ -100,22 +100,27 @@ public class RegistrarseController implements Initializable {
         
         if (nick.isEmpty() || email.isEmpty() || password.isEmpty() || birthdate == null) {
             mensajeerror.setText ("Todos los campos son obligatorios");
+            mensajeerror.setVisible(true);
             return;
         }
         if (!User.checkNickName(nick)) {
             errorus.setText("Este usuario ya existe");
+            errorus.setVisible(true);
             return ;
         }
         if (!User.checkEmail(email)) {
             errorcor.setText("Correo no válido");
+            errorcor.setVisible(true);
             return ;
         }
         if (!User.checkPassword(password)) {
             errorcon.setText("Contraseña no válida");
+            errorcon.setVisible(true);
             return ;
         }
         if (birthdate.isAfter(LocalDate.now().minusYears(16))) {
             errorfecha.setText("Debes tener al menos 16 años");
+            errorfecha.setVisible(true);
             return ;
         }
         
