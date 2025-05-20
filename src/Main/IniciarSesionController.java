@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.NavDAOException;
 import model.User;
@@ -100,5 +101,11 @@ public class IniciarSesionController implements Initializable {
     private Object authenticate(String text, String text0) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @FXML
+    private void registro(MouseEvent event) {
+        
+    }
+    
     
 }

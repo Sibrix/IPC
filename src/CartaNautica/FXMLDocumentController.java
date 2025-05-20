@@ -41,6 +41,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import CartaNautica.Poi;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 /**
  *
@@ -167,7 +171,6 @@ public class FXMLDocumentController implements Initializable {
         ((Stage) zoom_slider.getScene().getWindow()).close();
     }
 
-    @FXML
     private void about(ActionEvent event) {
         Alert mensaje = new Alert(Alert.AlertType.INFORMATION);
         // Acceder al Stage del Dialog y cambiar el icono
@@ -218,6 +221,17 @@ public class FXMLDocumentController implements Initializable {
                 map_listview.getItems().add(poi);
             }
         }
+    }
+
+    @FXML
+    private void iniciar_(ActionEvent event) throws IOException {
+         Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("INICIO DE SESION");
+        stage.setScene(scene);
+        stage.show();
     }
 
 
