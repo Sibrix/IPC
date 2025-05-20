@@ -186,9 +186,9 @@
                   <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE" />
                </children>
             </HBox>
-            <ImageView fx:id="imagen_avatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fx:id="imagen_avatar" fitHeight="150.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../../Downloads/vecteezy_user-icon-design_9267561.png" />
+                  <Image url="@../resources/vecteezy_user-icon-design_9267561.png" />
                </image>
             </ImageView>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
