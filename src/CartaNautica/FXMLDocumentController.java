@@ -41,16 +41,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import CartaNautica.Poi;
+import Main.Main;
+
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 
 /**
  *
  * @author jsoler
  */
 public class FXMLDocumentController implements Initializable {
+    private static Scene scene;
 
     //=======================================
     // hashmap para guardar los puntos de interes POI
@@ -227,10 +231,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void iniciar_(ActionEvent event) throws IOException {
-         Stage stage = new Stage();
+        Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("INICIO DE SESION");
         stage.setScene(scene);
         stage.show();
@@ -260,3 +265,4 @@ public class FXMLDocumentController implements Initializable {
 
 
 }
+
