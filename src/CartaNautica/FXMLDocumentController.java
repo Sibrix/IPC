@@ -75,6 +75,8 @@ public class FXMLDocumentController implements Initializable {
     private SplitPane splitPane;
     @FXML
     private Label mousePosition;
+    @FXML
+    private MenuButton usuarioMenuButton;
 
     @FXML
     void zoomIn(ActionEvent event) {
@@ -226,6 +228,28 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void iniciar_(ActionEvent event) throws IOException {
          Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("INICIO DE SESION");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void irmod(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/modificar_perfil.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("INICIO DE SESION");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void cerses(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);

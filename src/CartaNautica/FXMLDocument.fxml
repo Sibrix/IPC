@@ -21,10 +21,10 @@
    <children>
       <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="5.0" VBox.vgrow="NEVER">
          <children>
-            <MenuButton mnemonicParsing="false" text="usuario">
+            <MenuButton fx:id="usuarioMenuButton" mnemonicParsing="false" text="usuario">
               <items>
-                <MenuItem mnemonicParsing="false" text="Modificar perfil" />
-                <MenuItem mnemonicParsing="false" text="Cerrar Sesión" />
+                <MenuItem mnemonicParsing="false" onAction="#irmod" text="Modificar perfil" />
+                <MenuItem mnemonicParsing="false" onAction="#cerses" text="Cerrar Sesión" />
               </items>
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
@@ -76,12 +76,17 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="732.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Realizar Problema" />
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="224.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
+                        <MenuButton mnemonicParsing="false" text="Seleccionar problema">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Mostrar lista de problemas" />
+                            <MenuItem mnemonicParsing="false" text="Problema aleatorio" />
+                          </items>
+                        </MenuButton>
                      </children>
                   </HBox>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
                </children>
             </HBox>
             <Label fx:id="mousePosition" minHeight="-Infinity" minWidth="-Infinity" text="SceneX:     ScenY:     " wrapText="true" HBox.hgrow="ALWAYS" />
