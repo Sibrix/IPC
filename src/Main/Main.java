@@ -17,14 +17,19 @@ import javafx.stage.Stage;
  * @author jose
  */
 public class Main extends Application {
+    private static Scene scene;
     
+  public static void setRoot(Parent root) {
+        scene.setRoot(root);
+    }
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/CartaNautica/FXMLDocument.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
-        Scene scene = new Scene(root);
-        stage.setTitle("Carta náutica IPC");
+        FXMLLoader loader = new  FXMLLoader(getClass().getResource("/CartaNautica/FXMLDocument.fxml"));
+
+        Parent  root = loader.load();
+        scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Bienvenido a CashControl");
         stage.show();
     }
 

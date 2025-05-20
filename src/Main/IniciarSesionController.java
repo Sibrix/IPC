@@ -4,6 +4,7 @@
  */
 package Main;
 
+import CartaNautica.FXMLDocumentController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,11 +22,14 @@ import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.NavDAOException;
 import model.User;
 import static modelos.alerta.mostrarAlerta;
 import model.Navigation;
+import javafx.stage.Modality;
+
 
 /**
  * FXML Controller class
@@ -103,7 +107,16 @@ public class IniciarSesionController implements Initializable {
     }
 
     @FXML
-    private void registro(MouseEvent event) {
+    private void registro(MouseEvent event) throws IOException {   
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("registrarse.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("INICIO DE SESION");
+        stage.setScene(scene);
+        stage.show();
+        contraseña.getScene().getWindow().hide();
         
     }
     
