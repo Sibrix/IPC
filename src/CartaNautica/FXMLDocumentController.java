@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import CartaNautica.Poi;
 import Main.Main;
+import Main.listaproblemasController;
 
 import java.io.IOException;
 import java.util.Random;
@@ -180,6 +181,8 @@ public class FXMLDocumentController implements Initializable {
         zoomGroup.getChildren().add(map_scrollpane.getContent());
         map_scrollpane.setContent(contentGroup);
         
+        
+        
       
 
     }
@@ -281,29 +284,43 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void mostrarListaProblemas(ActionEvent event) throws IOException {
+    private void mostrarListaProblemas(ActionEvent event) throws IOException, NavDAOException {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main/listaproblemas.fxml"));
+        Parent root = loader.load();
+        listaproblemasController controller = loader.getController();
+        List<Problem> problemas = Navigation.getInstance().getProblems();
+        controller.setProblemas(problemas, false); 
+        
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/Main/listaproblemas.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
-        Scene scene = new Scene(root);
-        stage.setTitle("MODIFICAR PERFIL");
+        stage.setTitle("lista problemas");
         stage.setScene(scene);
         stage.show();
-        //stage.close();
+       
     }
 
     @FXML
-    private void mostrarProblemaAleatorio(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/Main/listaproblemas.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+    private void mostrarProblemaAleatorio(ActionEvent event) throws IOException, NavDAOException {
+       
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main/listaproblemas.fxml"));   
+        Parent root = loader.load();
+        listaproblemasController controller = loader.getController();
+        List<Problem> problemas = Navigation.getInstance().getProblems();
+        Problem aleatorio = problemas.get(new Random().nextInt(problemas.size()));
+        controller.setProblemas(List.of(aleatorio), true); 
+        
         Scene scene = new Scene(root);
-        stage.setTitle("MODIFICAR PERFIL");
+        Stage stage = new Stage();
+        stage.setTitle("PROBLEMA ALEATORIO");
         stage.setScene(scene);
         stage.show();
-        //stage.close();
+        //stage.close(); 
+        } 
+
+            
+        
+    
     }
 
 
-}
 

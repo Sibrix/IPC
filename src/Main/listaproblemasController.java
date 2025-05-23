@@ -55,6 +55,9 @@ public class listaproblemasController {
     private final String STYLE_INCORRECT_CHOICEBOX = "-fx-control-inner-background: #ffcdd2; -fx-text-fill: red; -fx-font-weight: bold;";
     @FXML
     private TextArea problemtext;
+    @FXML
+    private ListView<Problem> problemListView;
+    private List<Problem> listaProblemas;
     
     public void initialize(){
         answerschoicebox.setStyle(STYLE_NORMAL_CHOICEBOX);
@@ -95,8 +98,7 @@ public class listaproblemasController {
         }
     }
      
-      @FXML
-    void handleSubmitAnswer(ActionEvent event) {
+      void handleSubmitAnswer(ActionEvent event) {
         Answer selectedAnswer = answerschoicebox.getSelectionModel().getSelectedItem();
 
         if (selectedAnswer == null) {
@@ -116,6 +118,25 @@ public class listaproblemasController {
 
         submitbutton.setDisable(true);
         answerschoicebox.setDisable(true); 
+    }
+
+    public void setProblemas(List<Problem> problemas, boolean aleatorio) {
+        this.listaProblemas = problemas;
+        if (aleatorio && !problemas.isEmpty()) {
+            setProblem(problemas.get(0));
+            problemListView.setVisible(false);
+        } else {
+            ObservableList<Problem> observableList = FXCollections.observableArrayList(problemas);
+            problemListView.setItems(observableList);
+            problemListView.setVisible(true);
+            
+            problemListView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal != null && newVal.intValue() >= 0) {
+                    Problem selectedProblem = problemListView.getItems().get(newVal.intValue());
+                    setProblem(selectedProblem);
+                }
+            });
+        }
     }
     
   
