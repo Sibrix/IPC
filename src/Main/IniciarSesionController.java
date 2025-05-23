@@ -49,7 +49,7 @@ public class IniciarSesionController implements Initializable {
     private Label erroruser;
     @FXML
     private PasswordField contraseña;
-
+    public static User user;
     /**
      * Initializes the controller class.
      */
@@ -80,6 +80,7 @@ public class IniciarSesionController implements Initializable {
            return;
         }
         else{
+            user = nav.authenticate(usuario.getText(), contraseña.getText());
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("pantalla_inicio.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
@@ -88,7 +89,6 @@ public class IniciarSesionController implements Initializable {
         stage.setScene(scene);
         stage.show();
         erroruser.getScene().getWindow().hide();
-        
         }
     }
 
@@ -101,11 +101,6 @@ public class IniciarSesionController implements Initializable {
     private void cambioDeContraseña(KeyEvent event) {
         errorcon.setText("");
     }
-
-    private Object authenticate(String text, String text0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     @FXML
     private void registro(MouseEvent event) throws IOException {   
         Stage stage = new Stage();

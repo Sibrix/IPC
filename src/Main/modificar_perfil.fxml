@@ -38,8 +38,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="60.333343505859375" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
@@ -75,10 +75,6 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
-               <children>
-                  <Label fx:id="mensajeerror" text="error" textFill="RED" visible="false" />
-               </children></HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
@@ -99,7 +95,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="campocorreo" prefHeight="16.0" prefWidth="180.0">
+                  <TextField fx:id="campocorreo" prefHeight="25.0" prefWidth="262.0">
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></TextField>
@@ -124,13 +120,23 @@
                         </Button>
                      </children>
                   </HBox>
-                  <PasswordField fx:id="campoPas">
-                     <VBox.margin>
-                        <Insets left="20.0" right="10.0" />
-                     </VBox.margin></PasswordField>
+                  <HBox alignment="CENTER" prefHeight="33.0" prefWidth="257.0">
+                     <children>
+                        <PasswordField fx:id="campoPas" prefHeight="25.0" prefWidth="207.0" />
+                        <Button mnemonicParsing="false" onAction="#contraseña_visible" prefHeight="24.0" prefWidth="36.0">
+                           <graphic>
+                              <ImageView fitHeight="17.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/6866733.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+            <VBox alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="271.0" GridPane.rowIndex="3">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -153,6 +159,11 @@
                      <VBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin></DatePicker>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="mensajeerror" text="error" textFill="RED" visible="false" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
