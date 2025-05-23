@@ -44,10 +44,17 @@ import CartaNautica.Poi;
 import Main.Main;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
+import model.NavDAOException;
+import model.Navigation;
+import model.Problem;
 
 /**
  *
@@ -81,6 +88,14 @@ public class FXMLDocumentController implements Initializable {
     private Label mousePosition;
     @FXML
     private MenuButton usuarioMenuButton;
+    @FXML
+    private MenuItem menuListaProblemas;
+    @FXML
+    private MenuItem menuProblemaAleatorio;
+    @FXML
+    private TextArea textproblema;
+    
+    private List<Problem> problemas;
 
     @FXML
     void zoomIn(ActionEvent event) {
@@ -164,6 +179,8 @@ public class FXMLDocumentController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(map_scrollpane.getContent());
         map_scrollpane.setContent(contentGroup);
+        
+      
 
     }
 
@@ -261,6 +278,30 @@ public class FXMLDocumentController implements Initializable {
         stage.setTitle("INICIO DE SESION");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void mostrarListaProblemas(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/listaproblemas.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("MODIFICAR PERFIL");
+        stage.setScene(scene);
+        stage.show();
+        //stage.close();
+    }
+
+    @FXML
+    private void mostrarProblemaAleatorio(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/listaproblemas.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.setTitle("MODIFICAR PERFIL");
+        stage.setScene(scene);
+        stage.show();
+        //stage.close();
     }
 
 

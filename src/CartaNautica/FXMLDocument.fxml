@@ -80,8 +80,8 @@
                      <children>
                         <MenuButton mnemonicParsing="false" text="Seleccionar problema">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Mostrar lista de problemas" />
-                            <MenuItem mnemonicParsing="false" text="Problema aleatorio" />
+                            <MenuItem fx:id="menuListaProblemas" mnemonicParsing="false" onAction="#mostrarListaProblemas" text="Mostrar lista de problemas" />
+                            <MenuItem fx:id="menuProblemaAleatorio" mnemonicParsing="false" onAction="#mostrarProblemaAleatorio" text="Problema aleatorio" />
                           </items>
                         </MenuButton>
                      </children>
