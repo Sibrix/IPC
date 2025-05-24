@@ -72,9 +72,6 @@ public class FXMLDocumentController implements Initializable {
     // la variable zoomGroup se utiliza para dar soporte al zoom
     // el escalado se realiza sobre este nodo, al escalar el Group no mueve sus nodos
     private Group zoomGroup;
-
-    @FXML
-    private ListView<Poi> map_listview;
     @FXML
     private ScrollPane map_scrollpane;
     @FXML
@@ -93,8 +90,6 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem menuListaProblemas;
     @FXML
     private MenuItem menuProblemaAleatorio;
-    @FXML
-    private TextArea textproblema;
     
     private List<Problem> problemas;
 
@@ -129,8 +124,7 @@ public class FXMLDocumentController implements Initializable {
         map_scrollpane.setVvalue(scrollV);
     }
 
-    @FXML
-    void listClicked(MouseEvent event) {
+   /* void listClicked(MouseEvent event) {
         Poi itemSelected = map_listview.getSelectionModel().getSelectedItem();
 
         // Animación del scroll hasta la mousePosistion del item seleccionado
@@ -153,18 +147,18 @@ public class FXMLDocumentController implements Initializable {
         pin_info.setText(itemSelected.getDescription());
         map_pin.setVisible(true);
     }
-
+*/
+    /*
     private void initData() {
         data=map_listview.getItems();
         data.add(new Poi("1F", "Edificion del DSIC", 275, 250));
         data.add( new Poi("Agora", "Agora", 575, 350));
         data.add( new Poi("Pista", "Pista de atletismo y campo de futbol", 950, 350));
     }
-
+*/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        initData();
         //==========================================================
         // inicializamos el slider y enlazamos con el zoom
         zoom_slider.setMin(0.5);
@@ -244,7 +238,7 @@ public class FXMLDocumentController implements Initializable {
                 Point2D localPoint = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
                 Poi poi=result.get();
                 poi.setPosition(localPoint);
-                map_listview.getItems().add(poi);
+               // map_listview.getItems().add(poi);
             }
         }
     }

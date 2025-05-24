@@ -114,6 +114,8 @@ public class IniciarSesionController implements Initializable {
         contraseña.getScene().getWindow().hide();
         
     }
-    
+    public static void setUser(User usuario){
+        user=usuario;
+    }
     
 }

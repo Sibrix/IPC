@@ -4,6 +4,9 @@
  */
 package Main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -18,13 +21,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.NavDAOException;
 import model.Navigation;
@@ -71,14 +78,19 @@ public class ModificarController implements Initializable {
     private ImageView imagen_avatar;
     @FXML
     private Button avatar;
+    private User usuario;
 
     private Image avatarSeleccionado = null;
+    @FXML
+    private TextField contraseña_visible;
+    @FXML
+    private CheckBox visible;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        User usuario = IniciarSesionController.user;
+        usuario = IniciarSesionController.user;
         campoNick.setText(usuario.getNickName());
         campocorreo.setText(usuario.getEmail());
         campoPas.setText(usuario.getPassword());
@@ -87,24 +99,51 @@ public class ModificarController implements Initializable {
 
     @FXML
     private void info_us(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe tener entre 6 y 15 caracteres,\n" +
+                          "sin espacios. Se permiten guiones o subguiones");
+    alerta.showAndWait();
     }
 
     @FXML
     private void info_cor(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el correo");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe ser un correo válido");
+    alerta.showAndWait();
     }
 
     @FXML
     private void info_con(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("Debe tener entre 8 y 20 caracteres,\n" +
+                          "con mayúsculas, minúsculas, dígitos y un carácter especial");
+    alerta.showAndWait();
     }
 
     @FXML
     private void info_date(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    alerta.setTitle("Información sobre el nickname");
+    alerta.setHeaderText(null);
+    alerta.setContentText("El usuario debe tener mas de 16 años" );
+    alerta.showAndWait();
     }
 
     @FXML
     private void aceptarreg(ActionEvent event) throws IOException, NavDAOException {
         String nick = campoNick.getText().trim();
         String email = campocorreo.getText().trim();
+        if (visible.isSelected()){
+            String password =contraseña_visible.getText().trim();
+        }else{
+            String password = campoPas.getText().trim();
+        }
         String password = campoPas.getText().trim();
         LocalDate birthdate = campoDate.getValue();
         
@@ -128,44 +167,51 @@ public class ModificarController implements Initializable {
             errorfecha.setVisible(true);
             return ;
         }
-        
-          User nuevo = Navigation.getInstance().registerUser(nick, email, password, avatarSeleccionado, birthdate);
-         if (nuevo != null) {
-             mensajeerror.setText("Usuario registrado correctamente");     
-             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("iniciarSesion.fxml"));
-                Parent root = loader.load();
-
-                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                 stage.setScene(new Scene(root));
-                 stage.show();
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                         mensajeerror.setText("No se pudo cargar la pantalla de inicio de sesión.");
-                            }
-         } else {
-             mensajeerror.setText("Error al registrar usuario");
-         }
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
-            Scene scene = new Scene(root);
-            stage.setTitle("REGISTRADO");
-            stage.setScene(scene);
-            stage.show();
-            stage.close();
+        usuario.setEmail(email);
+        usuario.setBirthdate(birthdate);
+        usuario.setPassword(password);
+        IniciarSesionController.setUser(usuario);
+        campoNick.getScene().getWindow().hide();
     }
 
     @FXML
     private void cerrar(ActionEvent event) {
+        campoNick.getScene().getWindow().hide();
     }
 
     @FXML
     private void cambio_avatar(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar avatar");
+        fileChooser.getExtensionFilters().addAll(
+        new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+    );
+
+    File archivo = fileChooser.showOpenDialog(null);
+
+    if (archivo != null) {
+        try {
+            avatarSeleccionado = new Image(new FileInputStream(archivo));
+            imagen_avatar.setImage(avatarSeleccionado);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     }
 
     @FXML
     private void contraseña_visible(ActionEvent event) {
+        if (visible.isSelected()) {
+                    contraseña_visible.setText(campoPas.getText());
+                    contraseña_visible.setVisible(true);
+                    campoPas.setVisible(false);
+                } else {
+                    campoPas.setText(contraseña_visible.getText());
+                    campoPas.setVisible(true);
+                    contraseña_visible.setVisible(false);
+                }
+        
     }
+
     
 }
