@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -20,20 +19,20 @@
    <children>
       <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="5.0" VBox.vgrow="NEVER">
          <children>
-            <MenuButton fx:id="usuarioMenuButton" mnemonicParsing="false" text="usuario">
+            <MenuButton fx:id="usuarioMenuButton" mnemonicParsing="false">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#irmod" text="Modificar perfil" />
                 <MenuItem mnemonicParsing="false" onAction="#cerses" text="Cerrar Sesión" />
               </items>
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="foto_usuario" fitHeight="30.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/vecteezy_user-icon-design_9267561.png" />
                      </image>
                   </ImageView>
                </graphic>
             </MenuButton>
-            <Button mnemonicParsing="false" onAction="#iniciar_" text="Iniciar Sesión" />
+            <Button fx:id="iniciarSesion" mnemonicParsing="false" onAction="#iniciar_sesion" text="Iniciar Sesión" />
             <Region HBox.hgrow="ALWAYS" />
             <Label text="Zoom" />
             <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
@@ -50,15 +49,6 @@
                <content>
                   <Pane>
                      <children>
-                        <MenuButton fx:id="map_pin" mnemonicParsing="false" prefHeight="60.0" prefWidth="48.0" visible="false">
-                           <items>
-                              <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Action 1" />
-                           </items>
-                           <styleClass>
-                              <String fx:value="menu-button" />
-                              <String fx:value="map-pin" />
-                           </styleClass>
-                        </MenuButton>
                         <ImageView fitHeight="452.0" fitWidth="843.0" pickOnBounds="true" preserveRatio="true" scaleX="3.0" scaleY="3.0">
                            <image>
                               <Image url="@../resources/carta_nautica.jpg" />
@@ -76,7 +66,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="224.0">
                      <children>
-                        <MenuButton mnemonicParsing="false" text="Seleccionar problema">
+                        <MenuButton fx:id="seleccionar_problema" mnemonicParsing="false" text="Seleccionar problema">
                           <items>
                             <MenuItem fx:id="menuListaProblemas" mnemonicParsing="false" onAction="#mostrarListaProblemas" text="Mostrar lista de problemas" />
                             <MenuItem fx:id="menuProblemaAleatorio" mnemonicParsing="false" onAction="#mostrarProblemaAleatorio" text="Problema aleatorio" />
@@ -84,7 +74,7 @@
                         </MenuButton>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
+                  <Button fx:id="mostrar_resultados" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
                </children>
             </HBox>
             <Label fx:id="mousePosition" minHeight="-Infinity" minWidth="-Infinity" text="SceneX:     ScenY:     " wrapText="true" HBox.hgrow="ALWAYS" />

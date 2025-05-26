@@ -41,6 +41,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import CartaNautica.Poi;
+import Main.IniciarSesionController;
 import Main.Main;
 import Main.listaproblemasController;
 
@@ -49,13 +50,22 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import model.NavDAOException;
 import model.Navigation;
 import model.Problem;
+import model.User;
 
 /**
  *
@@ -77,10 +87,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider zoom_slider;
     @FXML
-    private MenuButton map_pin;
-    @FXML
-    private MenuItem pin_info;
-    @FXML
     private SplitPane splitPane;
     @FXML
     private Label mousePosition;
@@ -92,7 +98,17 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem menuProblemaAleatorio;
     
     private List<Problem> problemas;
-
+    @FXML
+    private Button iniciarSesion;
+    
+    private User usuarioactivo;
+    @FXML
+    private MenuButton seleccionar_problema;
+    @FXML
+    private Button mostrar_resultados;
+    @FXML
+    private ImageView foto_usuario;
+    
     @FXML
     void zoomIn(ActionEvent event) {
         //================================================
@@ -176,9 +192,23 @@ public class FXMLDocumentController implements Initializable {
         map_scrollpane.setContent(contentGroup);
         
         
-        
+        iniciarSesion.setVisible(IniciarSesionController.miStringProperty.get().isEmpty());
+        usuarioMenuButton.setDisable(true);
+        seleccionar_problema.setDisable(true);
+        mostrar_resultados.setDisable(true);
+       IniciarSesionController.miStringProperty.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                iniciarSesion.setVisible(newValue == null || newValue.isEmpty());
+                usuarioMenuButton.disableProperty().bind(iniciarSesion.visibleProperty());
+                seleccionar_problema.disableProperty().bind(iniciarSesion.visibleProperty());
+                mostrar_resultados.disableProperty().bind(iniciarSesion.visibleProperty());
+                usuarioMenuButton.setText(IniciarSesionController.user.getNickName());
+                foto_usuario.setImage(IniciarSesionController.user.getAvatar());
+                
+            }
+        });
       
-
     }
 
     @FXML
@@ -244,18 +274,6 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void iniciar_(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
-        Scene scene = new Scene(root);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("INICIO DE SESION");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
     private void irmod(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/Main/modificar_perfil.fxml"));
@@ -311,10 +329,23 @@ public class FXMLDocumentController implements Initializable {
         //stage.close(); 
         } 
 
+    @FXML
+    private void iniciar_sesion(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("INICIO DE SESION");
+        stage.setScene(scene);
+        stage.show();
+    }
+   
             
         
     
-    }
+        }
+                
 
 
 

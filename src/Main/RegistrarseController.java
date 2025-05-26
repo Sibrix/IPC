@@ -63,7 +63,7 @@ public class RegistrarseController implements Initializable {
     private Label mensajeerror;
     @FXML
     private ImageView imagen_avatar;
-    private Image avatarSeleccionado = null;
+    private Image avatarSeleccionado;
     @FXML
     private Button avatar;
     @FXML
@@ -163,8 +163,10 @@ public class RegistrarseController implements Initializable {
 
     if (archivo != null) {
         try {
-            avatarSeleccionado = new Image(new FileInputStream(archivo));
-            imagen_avatar.setImage(avatarSeleccionado);
+            String url =archivo.getPath();
+            avatarSeleccionado = new Image(new FileInputStream(url));
+            System.out.println(url);
+            imagen_avatar.imageProperty().setValue(avatarSeleccionado);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

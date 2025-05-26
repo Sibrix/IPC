@@ -95,6 +95,7 @@ public class ModificarController implements Initializable {
         campocorreo.setText(usuario.getEmail());
         campoPas.setText(usuario.getPassword());
         campoDate.setValue(usuario.getBirthdate());
+        imagen_avatar.setImage(usuario.getAvatar());
     }    
 
     @FXML

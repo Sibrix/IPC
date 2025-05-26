@@ -8,6 +8,7 @@ import CartaNautica.FXMLDocumentController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,7 +50,9 @@ public class IniciarSesionController implements Initializable {
     private Label erroruser;
     @FXML
     private PasswordField contraseña;
+    
     public static User user;
+    public static SimpleStringProperty miStringProperty = new SimpleStringProperty("");
     /**
      * Initializes the controller class.
      */
@@ -81,14 +84,8 @@ public class IniciarSesionController implements Initializable {
         }
         else{
             user = nav.authenticate(usuario.getText(), contraseña.getText());
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("pantalla_inicio.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
-        Scene scene = new Scene(root);
-        stage.setTitle("CartaNautica");
-        stage.setScene(scene);
-        stage.show();
-        erroruser.getScene().getWindow().hide();
+            miStringProperty.set(user.getNickName());
+            erroruser.getScene().getWindow().hide();
         }
     }
 
