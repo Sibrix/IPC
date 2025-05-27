@@ -45,6 +45,8 @@ import Main.IniciarSesionController;
 import Main.Main;
 import Main.listaproblemasController;
 
+import static java.awt.Color.GREEN;
+
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -60,9 +62,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import model.NavDAOException;
 import model.Navigation;
@@ -110,6 +118,18 @@ public class FXMLDocumentController implements Initializable {
     private Button mostrar_resultados;
     @FXML
     private ImageView foto_usuario;
+    @FXML
+    private Pane drawingPane;
+    
+    private String activeTool = "";
+    @FXML
+    private ToggleButton btnLinea;
+    @FXML
+    private ToggleButton btnArc;
+    @FXML
+    private ToggleButton btnText;
+    @FXML
+    private ToggleButton btnPunt;
     
     @FXML
     void zoomIn(ActionEvent event) {
@@ -209,8 +229,74 @@ public class FXMLDocumentController implements Initializable {
                 foto_usuario.setImage(IniciarSesionController.user.getAvatar());
             }
         });
+       drawingPane.setOnMouseClicked(event -> {
+           switch(activeTool) {
+               case "Punt" :
+                   marcarPunt(event.getX(), event.getY());
+                   break;
+               case "Linia":
+                    seleccionarPuntsPerLinia(event.getX(), event.getY());
+                    break;
+               case "Arc":
+                    seleccionarDadesPerArc(event.getX(), event.getY());
+                    break;
+               case "Text":
+                    escriureText(event.getX(), event.getY());
+                    break;
+            
+           }
+       });
       
     }
+    private void marcarPunt(double x, double y){
+         
+        Circle c = new Circle(x, y, 5, javafx.scene.paint.Color.GREEN);
+        drawingPane.getChildren().add(c);
+    }
+     private Point2D primerPunt = null;
+     
+      private void seleccionarPuntsPerLinia(double x, double y) {
+        if (primerPunt == null) {
+            primerPunt = new Point2D(x, y);
+        } else {
+            Line l = new Line(primerPunt.getX(), primerPunt.getY(), x, y);
+            l.setStroke(javafx.scene.paint.Color.GREEN);
+            l.setStrokeWidth(2);
+            drawingPane.getChildren().add(l);
+            primerPunt = null;
+        }
+    }
+    private Point2D centreArc = null;
+    
+    private void seleccionarDadesPerArc(double x, double y) {
+        if (centreArc == null) {
+            centreArc = new Point2D(x, y);
+        } else {
+            double radi = centreArc.distance(x, y);
+            Arc arc = new Arc(centreArc.getX(), centreArc.getY(), radi, radi, 0, 180);
+            arc.setType(ArcType.OPEN);
+            arc.setStroke(javafx.scene.paint.Color.GREEN);
+            arc.setFill(null);
+            arc.setStrokeWidth(2);
+            drawingPane.getChildren().add(arc);
+            centreArc = null;
+        }
+    }
+    
+    private void escriureText(double x, double y) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Anotar text");
+        dialog.setHeaderText("Escriu el text:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(text -> {
+            Text t = new Text(x, y, text);
+            t.setFill(javafx.scene.paint.Color.BLACK);
+            t.setStyle("-fx-font-size: 14px;");
+            drawingPane.getChildren().add(t);
+        });
+    }
+    
+      
 
     @FXML
     private void showPosition(MouseEvent event) {
@@ -408,6 +494,27 @@ public class FXMLDocumentController implements Initializable {
         stage.setScene(scene);
         stage.show(); 
 
+    }
+    
+
+    @FXML
+    private void handleLinea(ActionEvent event) {
+        activeTool = "Linea";
+    }
+
+    @FXML
+    private void handleArc(ActionEvent event) {
+        activeTool = "Arc";
+    }
+
+    @FXML
+    private void handleText(ActionEvent event) {
+        activeTool = "Text";
+    }
+
+    @FXML
+    private void handlePunto(ActionEvent event) {
+         activeTool = "Punt";
     }
    
             
