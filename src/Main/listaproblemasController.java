@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -31,6 +32,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -56,7 +58,7 @@ public class listaproblemasController {
     private final String STYLE_CORRECT_CHOICEBOX = "-fx-control-inner-background: #c8e6c9; -fx-text-fill: green; -fx-font-weight: bold;"; 
     private final String STYLE_INCORRECT_CHOICEBOX = "-fx-control-inner-background: #ffcdd2; -fx-text-fill: red; -fx-font-weight: bold;";
     @FXML
-    private TextArea problemtext;
+    private Label problemtext;
     @FXML
     private ListView<Problem> problemListView;
     private List<Problem> listaProblemas;
@@ -159,7 +161,19 @@ public class listaproblemasController {
             ObservableList<Problem> observableList = FXCollections.observableArrayList(problemas);
             problemListView.setItems(observableList);
             problemListView.setVisible(true);
-            
+    problemListView.setCellFactory(listView -> new ListCell<>() {
+        @Override
+    protected void updateItem(Problem item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+            setText(null);
+        } else {
+            int index = getIndex();
+            setText("Problema " + (index + 1));
+        }
+    }
+});
+
             problemListView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
                 if (newVal != null && newVal.intValue() >= 0) {
                     Problem selectedProblem = problemListView.getItems().get(newVal.intValue());
@@ -179,5 +193,6 @@ public class listaproblemasController {
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.close();
     }
+    
 }    
   
