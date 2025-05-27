@@ -313,6 +313,33 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("lista problemas");
         stage.setScene(scene);
+        
+        
+        stage.setOnCloseRequest(e -> {
+e.consume(); 
+Alert alert = new Alert(Alert.AlertType.WARNING);
+ alert.setTitle("Advertencia");
+ alert.setHeaderText("¿Seguro que quieres cerrar?");
+ alert.setContentText("Si no pulsas 'Finalizar sesión', los resultados no se guardarán.");
+
+ ButtonType finalizar = new ButtonType("Finalizar sesión");
+ ButtonType cerrar = new ButtonType("Cerrar sin guardar");
+ ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+ alert.getButtonTypes().setAll(finalizar, cerrar, cancelar);
+                
+Optional<ButtonType> result = alert.showAndWait();
+ if (result.isPresent()) {
+ if (result.get() == finalizar) {
+ controller.finalizar_sesion(null); 
+ stage.close();
+ } else if (result.get() == cerrar) {
+ stage.close(); 
+ }
+ }
+ });
+
+
         stage.show();
        
     }
@@ -345,6 +372,19 @@ public class FXMLDocumentController implements Initializable {
         stage.setTitle("INICIO DE SESION");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void mostrarres(ActionEvent event) throws IOException {       
+       Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Main/resultados.fxml"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("VER RESULTADOS");
+        stage.setScene(scene);
+        stage.show(); 
+
     }
    
             

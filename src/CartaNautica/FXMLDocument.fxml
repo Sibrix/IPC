@@ -75,7 +75,7 @@
                         </MenuButton>
                      </children>
                   </HBox>
-                  <Button fx:id="mostrar_resultados" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
+                  <Button fx:id="mostrar_resultados" mnemonicParsing="false" onAction="#mostrarres" prefHeight="25.0" prefWidth="170.0" text="Mostrar resultados" />
                </children>
             </HBox>
             <Label fx:id="mousePosition" minHeight="-Infinity" minWidth="-Infinity" text="SceneX:     ScenY:     " wrapText="true" HBox.hgrow="ALWAYS" />

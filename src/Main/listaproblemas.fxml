@@ -30,5 +30,6 @@
          </font>
       </Button>
       <Label fx:id="labelres" layoutX="300.0" layoutY="334.0" text=" " textFill="RED" />
+      <Button fx:id="finalizarSesion" layoutX="250.0" layoutY="361.0" mnemonicParsing="false" onAction="#finalizar_sesion" style="-fx-background-color: #0685bc;" text="Finalizar sesión" textFill="WHITE" />
    </children>
 </Pane>

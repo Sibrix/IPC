@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -61,6 +62,12 @@ public class listaproblemasController {
     private List<Problem> listaProblemas;
     @FXML
     private Label labelres;
+    
+    private int aciertos = 0;
+    private int errores = 0;
+    @FXML
+    private Button finalizarSesion;
+
     
     public void initialize(){
         answerschoicebox.setStyle(STYLE_NORMAL_CHOICEBOX);
@@ -130,10 +137,12 @@ public class listaproblemasController {
         answerschoicebox.setStyle(STYLE_CORRECT_CHOICEBOX);
         labelres.setText("¡Correcto!");
         labelres.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+        aciertos++;
     } else {
         answerschoicebox.setStyle(STYLE_INCORRECT_CHOICEBOX);
         labelres.setText("Incorrecto.");
         labelres.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+        errores++;
     }
 
     submitbutton.setDisable(true);
@@ -158,6 +167,17 @@ public class listaproblemasController {
                 }
             });
         }
+    }
+
+    @FXML
+    public void finalizar_sesion(ActionEvent event) {
+        if (IniciarSesionController.user != null) {
+            IniciarSesionController.user.addSession(aciertos, errores);
+            aciertos = 0;
+            errores = 0;
+        }
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.close();
     }
 }    
   
