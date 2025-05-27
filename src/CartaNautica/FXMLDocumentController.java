@@ -304,7 +304,7 @@ public class FXMLDocumentController implements Initializable {
         listaproblemasController controller = loader.getController();
         List<Problem> problemas = Navigation.getInstance().getProblems();
         controller.setProblemas(problemas, false); 
-        
+        Scene scene = new Scene(root); 
         Stage stage = new Stage();
         stage.setTitle("lista problemas");
         stage.setScene(scene);
