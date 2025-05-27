@@ -1,9 +1,9 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Main;
-
 import static java.lang.Math.E;
 import static java.lang.StrictMath.E;
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import model.Answer;
 import model.Problem;
-
 /**
  *
  * @author idair
@@ -50,6 +50,7 @@ public class listaproblemasController {
     
     private Problem problema;
     
+    
     private final String STYLE_NORMAL_CHOICEBOX = "-fx-control-inner-background: white; -fx-text-fill: black;"; 
     private final String STYLE_CORRECT_CHOICEBOX = "-fx-control-inner-background: #c8e6c9; -fx-text-fill: green; -fx-font-weight: bold;"; 
     private final String STYLE_INCORRECT_CHOICEBOX = "-fx-control-inner-background: #ffcdd2; -fx-text-fill: red; -fx-font-weight: bold;";
@@ -58,9 +59,23 @@ public class listaproblemasController {
     @FXML
     private ListView<Problem> problemListView;
     private List<Problem> listaProblemas;
+    @FXML
+    private Label labelres;
     
     public void initialize(){
         answerschoicebox.setStyle(STYLE_NORMAL_CHOICEBOX);
+        answerschoicebox.setConverter(new StringConverter<Answer>() {
+    @Override
+    public String toString(Answer answer) {
+        return answer != null ? answer.getText() : "";
+    }
+
+    @Override
+    public Answer fromString(String string) {
+        return null;
+    }
+});
+
         
     }
     
@@ -98,27 +113,33 @@ public class listaproblemasController {
         }
     }
      
-      void handleSubmitAnswer(ActionEvent event) {
-        Answer selectedAnswer = answerschoicebox.getSelectionModel().getSelectedItem();
-
-        if (selectedAnswer == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Atención");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor, selecciona una respuesta.");
-            alert.showAndWait();
-            return;
-        }
-
-        if (selectedAnswer.getValidity()) {
-            answerschoicebox.setStyle(STYLE_CORRECT_CHOICEBOX);
-        } else {
-            answerschoicebox.setStyle(STYLE_INCORRECT_CHOICEBOX);
-        }
-
-        submitbutton.setDisable(true);
-        answerschoicebox.setDisable(true); 
+    @FXML
+    public void handleSubmitAnswer(ActionEvent event) {
+        
+     Answer selectedAnswer = answerschoicebox.getSelectionModel().getSelectedItem();
+    if (selectedAnswer == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Atención");
+        alert.setHeaderText(null);
+        alert.setContentText("Por favor, selecciona una respuesta.");
+        alert.showAndWait();
+        return;
     }
+
+    if (selectedAnswer.getValidity()) {
+        answerschoicebox.setStyle(STYLE_CORRECT_CHOICEBOX);
+        labelres.setText("¡Correcto!");
+        labelres.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+    } else {
+        answerschoicebox.setStyle(STYLE_INCORRECT_CHOICEBOX);
+        labelres.setText("Incorrecto.");
+        labelres.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+    }
+
+    submitbutton.setDisable(true);
+    answerschoicebox.setDisable(true); 
+}
+
 
     public void setProblemas(List<Problem> problemas, boolean aleatorio) {
         this.listaProblemas = problemas;
@@ -138,7 +159,5 @@ public class listaproblemasController {
             });
         }
     }
-    
+}    
   
-}
-        
