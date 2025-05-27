@@ -49,7 +49,7 @@
                <content>
                   <Pane>
                      <children>
-                        <ImageView fitHeight="452.0" fitWidth="843.0" pickOnBounds="true" preserveRatio="true" scaleX="3.0" scaleY="3.0">
+                        <ImageView fitHeight="452.0" fitWidth="843.0" onMouseClicked="#addPoi" pickOnBounds="true" preserveRatio="true" scaleX="3.0" scaleY="3.0">
                            <image>
                               <Image url="@../resources/carta_nautica.jpg" />
                            </image>

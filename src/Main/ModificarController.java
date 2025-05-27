@@ -89,6 +89,7 @@ public class ModificarController implements Initializable {
      * Initializes the controller class.
      */
     @Override
+    //yaiza puta
     public void initialize(URL url, ResourceBundle rb){
         usuario = IniciarSesionController.user;
         campoNick.setText(usuario.getNickName());
@@ -140,14 +141,13 @@ public class ModificarController implements Initializable {
     private void aceptarreg(ActionEvent event) throws IOException, NavDAOException {
         String nick = campoNick.getText().trim();
         String email = campocorreo.getText().trim();
+        String password;
         if (visible.isSelected()){
-            String password =contraseña_visible.getText().trim();
+            password = contraseña_visible.getText().trim();
         }else{
-            String password = campoPas.getText().trim();
+            password = campoPas.getText().trim();
         }
-        String password = campoPas.getText().trim();
         LocalDate birthdate = campoDate.getValue();
-        
         if (nick.isEmpty() || email.isEmpty() || password.isEmpty() || birthdate == null) {
             mensajeerror.setText ("Todos los campos son obligatorios");
             mensajeerror.setVisible(true);
@@ -171,6 +171,7 @@ public class ModificarController implements Initializable {
         usuario.setEmail(email);
         usuario.setBirthdate(birthdate);
         usuario.setPassword(password);
+        usuario.setAvatar(imagen_avatar.getImage());
         IniciarSesionController.setUser(usuario);
         campoNick.getScene().getWindow().hide();
     }

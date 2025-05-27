@@ -61,6 +61,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import model.NavDAOException;
 import model.Navigation;
@@ -205,7 +207,6 @@ public class FXMLDocumentController implements Initializable {
                 mostrar_resultados.disableProperty().bind(iniciarSesion.visibleProperty());
                 usuarioMenuButton.setText(IniciarSesionController.user.getNickName());
                 foto_usuario.setImage(IniciarSesionController.user.getAvatar());
-                
             }
         });
       
