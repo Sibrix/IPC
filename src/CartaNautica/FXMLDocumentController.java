@@ -287,13 +287,18 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void cerses(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/Main/iniciarSesion.fxml"));
+       IniciarSesionController.user = null;
+       IniciarSesionController.miStringProperty =new SimpleStringProperty(""); 
+       Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
-        stage.setTitle("INICIO DE SESION");
+        stage.setTitle("Carta Nautica");
         stage.setScene(scene);
         stage.show();
+        mostrar_resultados.getScene().getWindow().hide();
+        
+       
     }
 
     @FXML

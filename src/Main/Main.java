@@ -29,7 +29,7 @@ public class Main extends Application {
         Parent  root = loader.load();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Bienvenido a CashControl");
+        stage.setTitle("Carta nautica");
         stage.show();
     }
 
