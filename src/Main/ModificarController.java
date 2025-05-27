@@ -213,7 +213,7 @@ public class ModificarController implements Initializable {
                     contraseña_visible.setVisible(false);
                 }
         
-    }
 
     
 }
+    }
