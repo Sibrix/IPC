@@ -314,32 +314,31 @@ public class FXMLDocumentController implements Initializable {
         stage.setTitle("lista problemas");
         stage.setScene(scene);
         
-        
         stage.setOnCloseRequest(e -> {
-e.consume(); 
-Alert alert = new Alert(Alert.AlertType.WARNING);
- alert.setTitle("Advertencia");
- alert.setHeaderText("¿Seguro que quieres cerrar?");
- alert.setContentText("Si no pulsas 'Finalizar sesión', los resultados no se guardarán.");
+            e.consume(); 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("¿Seguro que quieres cerrar?");
+            alert.setContentText("Si no pulsas 'Finalizar sesión', los resultados no se guardarán.");
 
- ButtonType finalizar = new ButtonType("Finalizar sesión");
- ButtonType cerrar = new ButtonType("Cerrar sin guardar");
- ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            ButtonType finalizar = new ButtonType("Finalizar sesión");
+            ButtonType cerrar = new ButtonType("Cerrar sin guardar");
+            ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
 
- alert.getButtonTypes().setAll(finalizar, cerrar, cancelar);
+            alert.getButtonTypes().setAll(finalizar, cerrar, cancelar);
                 
-Optional<ButtonType> result = alert.showAndWait();
- if (result.isPresent()) {
- if (result.get() == finalizar) {
- controller.finalizar_sesion(null); 
- stage.close();
- } else if (result.get() == cerrar) {
- stage.close(); 
- }
- }
- });
-
-
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if (result.isPresent()) {
+                if (result.get() == finalizar) {
+                    controller.finalizar_sesion(null); 
+                    stage.close();
+                } else if (result.get() == cerrar) {
+                           stage.close(); 
+                }
+            }
+        });
+        
         stage.show();
        
     }
@@ -358,6 +357,30 @@ Optional<ButtonType> result = alert.showAndWait();
         Stage stage = new Stage();
         stage.setTitle("PROBLEMA ALEATORIO");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> {
+            e.consume(); 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("¿Seguro que quieres cerrar?");
+            alert.setContentText("Si no pulsas 'Finalizar sesión', los resultados no se guardarán.");
+
+            ButtonType finalizar = new ButtonType("Finalizar sesión");
+            ButtonType cerrar = new ButtonType("Cerrar sin guardar");
+            ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(finalizar, cerrar, cancelar);
+                
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if (result.isPresent()) {
+                if (result.get() == finalizar) {
+                    controller.finalizar_sesion(null); 
+                    stage.close();
+                } else if (result.get() == cerrar) {
+                           stage.close(); 
+                }
+            }
+        });
         stage.show();
         //stage.close(); 
         } 
