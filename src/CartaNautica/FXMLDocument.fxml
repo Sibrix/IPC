@@ -52,6 +52,8 @@
                   <ToggleButton fx:id="btnLinea" mnemonicParsing="false" onAction="#handleLinea" style="-fx-background-color: #0685BC;" text="LINEA" textFill="WHITE" />
                   <ToggleButton fx:id="btnArc" mnemonicParsing="false" onAction="#handleArc" style="-fx-background-color: #0685BC;" text="ARC" textFill="WHITE" />
                   <ToggleButton fx:id="btnText" mnemonicParsing="false" onAction="#handleText" style="-fx-background-color: #0685BC;" text="TEXT" textFill="WHITE" />
+                  <ToggleButton fx:id="btnGoma" mnemonicParsing="false" onAction="#handleGoma" style="-fx-background-color: #0685BC;" text="GOMA" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#borrarTodo" style="-fx-background-color: #0685BC;" text="LIMPIAR" textFill="WHITE" />
                </children>
                <padding>
                   <Insets top="5.0" />

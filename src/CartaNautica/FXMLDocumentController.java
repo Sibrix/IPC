@@ -44,6 +44,7 @@ import CartaNautica.Poi;
 import Main.IniciarSesionController;
 import Main.Main;
 import Main.listaproblemasController;
+import java.awt.Color;
 
 import static java.awt.Color.GREEN;
 
@@ -59,6 +60,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -130,6 +132,8 @@ public class FXMLDocumentController implements Initializable {
     private ToggleButton btnText;
     @FXML
     private ToggleButton btnPunt;
+    @FXML
+    private ToggleButton btnGoma;
     
     @FXML
     void zoomIn(ActionEvent event) {
@@ -229,12 +233,13 @@ public class FXMLDocumentController implements Initializable {
                 foto_usuario.setImage(IniciarSesionController.user.getAvatar());
             }
         });
+   
        drawingPane.setOnMouseClicked(event -> {
            switch(activeTool) {
                case "Punt" :
                    marcarPunt(event.getX(), event.getY());
                    break;
-               case "Linia":
+               case "Linea":
                     seleccionarPuntsPerLinia(event.getX(), event.getY());
                     break;
                case "Arc":
@@ -243,6 +248,9 @@ public class FXMLDocumentController implements Initializable {
                case "Text":
                     escriureText(event.getX(), event.getY());
                     break;
+               case "Goma":
+                   borrarObjecte(event.getX(), event.getY());
+                   break;
             
            }
        });
@@ -255,10 +263,14 @@ public class FXMLDocumentController implements Initializable {
     }
      private Point2D primerPunt = null;
      
-      private void seleccionarPuntsPerLinia(double x, double y) {
+   private void seleccionarPuntsPerLinia(double x, double y) {
+       System.out.println("Estado de primerPunt: " + primerPunt);
         if (primerPunt == null) {
             primerPunt = new Point2D(x, y);
+            System.out.println("Primer punto guardado en: " + primerPunt);
+            
         } else {
+            System.out.println("Segundo punto recibido. Dibujando línea.");
             Line l = new Line(primerPunt.getX(), primerPunt.getY(), x, y);
             l.setStroke(javafx.scene.paint.Color.GREEN);
             l.setStrokeWidth(2);
@@ -516,6 +528,106 @@ public class FXMLDocumentController implements Initializable {
     private void handlePunto(ActionEvent event) {
          activeTool = "Punt";
     }
+    
+     @FXML
+    private void handleGoma(ActionEvent event) {
+        activeTool = "Goma";
+        
+    }
+    
+    private void borrarObjecte(double x, double y) {
+    Node objecteABorrar = null;
+
+    for (Node node : drawingPane.getChildren()) {
+        if (node instanceof Line) {
+            Line line = (Line) node;
+            if (estaSobreLinea(line, x, y)) {
+                objecteABorrar = line;
+                break;
+            }
+        } else if (node instanceof Arc) {
+            Arc arc = (Arc) node;
+            if (arc.getBoundsInParent().contains(x, y)) {
+                objecteABorrar = arc;
+                break;
+            }
+        } else if (node instanceof Text) {
+            Text text = (Text) node;
+            if (text.getBoundsInParent().contains(x, y)) {
+                objecteABorrar = text;
+                break;
+            }
+        }else if (node instanceof Circle) {
+            Circle circle = (Circle) node;
+
+            // Comprobar si el punto (x, y) está dentro del círculo (con margen)
+            Bounds bounds = circle.getBoundsInParent();
+            if (bounds.contains(x, y)) {
+                objecteABorrar = circle;
+                break;
+            }
+            
+        }
+        // Si tienes Arc u otras figuras, puedes añadir más casos aquí.
+    }
+
+    if (objecteABorrar != null) {
+        drawingPane.getChildren().remove(objecteABorrar);
+    }
+}
+    private boolean estaSobreLinea(Line line, double x, double y) {
+    double tolerance = 5.0; // rango de clic cercano a la línea
+
+    // Obtener puntos de la línea
+    double x1 = line.getStartX();
+    double y1 = line.getStartY();
+    double x2 = line.getEndX();
+    double y2 = line.getEndY();
+
+    // Distancia del punto al segmento de línea
+    double distance = distanciaPuntALinea(x, y, x1, y1, x2, y2);
+    return distance <= tolerance;
+}
+
+private double distanciaPuntALinea(double px, double py, double x1, double y1, double x2, double y2) {
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+
+    if (dx == 0 && dy == 0) {
+        // La línea es un punto
+        dx = px - x1;
+        dy = py - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    double t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
+
+    t = Math.max(0, Math.min(1, t));
+
+    double projX = x1 + t * dx;
+    double projY = y1 + t * dy;
+
+    dx = px - projX;
+    dy = py - projY;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+    @FXML
+    private void borrarTodo(ActionEvent event) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Vols esborrar tot?", ButtonType.YES, ButtonType.NO);
+        alerta.setTitle("Confirmació");
+        Optional<ButtonType> resultat = alerta.showAndWait();
+
+        if (resultat.isPresent() && resultat.get() == ButtonType.YES) {
+            drawingPane.getChildren().removeIf(node -> !(node instanceof ImageView));
+            primerPunt = null;
+            centreArc = null;
+        }
+
+    }
+
+   
    
             
         

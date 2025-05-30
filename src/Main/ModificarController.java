@@ -172,7 +172,7 @@ public class ModificarController implements Initializable {
         usuario.setBirthdate(birthdate);
         usuario.setPassword(password);
         usuario.setAvatar(imagen_avatar.getImage());
-        IniciarSesionController.setUser(usuario);
+        IniciarSesionController.miStringProperty.set(password);
         campoNick.getScene().getWindow().hide();
     }
 
