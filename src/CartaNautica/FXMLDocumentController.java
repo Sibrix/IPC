@@ -45,9 +45,7 @@ import Main.IniciarSesionController;
 import Main.Main;
 import Main.listaproblemasController;
 import java.awt.Color;
-
 import static java.awt.Color.GREEN;
-
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -64,10 +62,12 @@ import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
@@ -134,6 +134,20 @@ public class FXMLDocumentController implements Initializable {
     private ToggleButton btnPunt;
     @FXML
     private ToggleButton btnGoma;
+    private Point2D centroCompas = null;
+    private Arc arcoTemporal = null;
+    private boolean compasActivo = false;
+    private Point2D inicioLinea = null;
+    private Line lineaTemporal = null;
+    private Line lineaCompas = null;
+    private ImageView reglaView = null;
+    private ImageView transportadorView = null;
+    @FXML
+    private ColorPicker colorpunto;
+    @FXML
+    private ToggleButton btnRegla;
+    @FXML
+    private ToggleButton btnTransportador;
     
     @FXML
     void zoomIn(ActionEvent event) {
@@ -200,6 +214,10 @@ public class FXMLDocumentController implements Initializable {
 */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        drawingPane.setMouseTransparent(false);
+        drawingPane.setPickOnBounds(true);
+        
         // TODO
         //==========================================================
         // inicializamos el slider y enlazamos con el zoom
@@ -233,18 +251,14 @@ public class FXMLDocumentController implements Initializable {
                 foto_usuario.setImage(IniciarSesionController.user.getAvatar());
             }
         });
-   
+       
+       
+       
        drawingPane.setOnMouseClicked(event -> {
            switch(activeTool) {
                case "Punt" :
                    marcarPunt(event.getX(), event.getY());
                    break;
-               case "Linea":
-                    seleccionarPuntsPerLinia(event.getX(), event.getY());
-                    break;
-               case "Arc":
-                    seleccionarDadesPerArc(event.getX(), event.getY());
-                    break;
                case "Text":
                     escriureText(event.getX(), event.getY());
                     break;
@@ -254,46 +268,126 @@ public class FXMLDocumentController implements Initializable {
             
            }
        });
+       
+       
+       
+       
+       
+    drawingPane.setOnMousePressed(event -> {
+    if ("Arc".equals(activeTool)) {
+       centroCompas = new Point2D(event.getX(), event.getY());
+
+    arcoTemporal = new Arc();
+    arcoTemporal.setCenterX(centroCompas.getX());
+    arcoTemporal.setCenterY(centroCompas.getY());
+    arcoTemporal.setRadiusX(0);
+    arcoTemporal.setRadiusY(0);
+    arcoTemporal.setStartAngle(0);
+    arcoTemporal.setLength(180);
+    arcoTemporal.setType(ArcType.OPEN);
+    arcoTemporal.setStroke(colorpunto.getValue());
+    arcoTemporal.setStrokeWidth(2);
+    arcoTemporal.setFill(null);
+
+    drawingPane.getChildren().add(arcoTemporal);
+
+    // Punto en el centro
+    Circle puntoCentro = new Circle(centroCompas.getX(), centroCompas.getY(), 5, colorpunto.getValue());
+    drawingPane.getChildren().add(puntoCentro);
+    }else if ("Linea".equals(activeTool)){
+        inicioLinea = new Point2D(event.getX(), event.getY());
+        lineaTemporal = new Line();
+        lineaTemporal.setStartX(inicioLinea.getX());
+        lineaTemporal.setStartY(inicioLinea.getY());
+        lineaTemporal.setEndX(inicioLinea.getX());
+        lineaTemporal.setEndY(inicioLinea.getY());
+        lineaTemporal.setStroke(colorpunto.getValue());
+        lineaTemporal.setStrokeWidth(2);
+        drawingPane.getChildren().add(lineaTemporal);
+         Circle puntoInicial = new Circle(inicioLinea.getX(), inicioLinea.getY(), 5, colorpunto.getValue());
+         drawingPane.getChildren().add(puntoInicial);
+    
+    }
+});
+
+ 
+       
+       
+       
+       drawingPane.setOnMouseDragged(event -> {
+        System.out.println("Dragged con activeTool = " + activeTool);
+    if ("Arc".equals(activeTool) && arcoTemporal != null && centroCompas != null) {
+         double dx = event.getX() - centroCompas.getX();
+    double dy = event.getY() - centroCompas.getY();
+
+    double radio = Math.sqrt(dx * dx + dy * dy);
+    double angle = Math.toDegrees(Math.atan2(dy, dx));
+    if (angle < 0) angle += 360;
+
+    arcoTemporal.setCenterX(centroCompas.getX());
+    arcoTemporal.setCenterY(centroCompas.getY());
+    arcoTemporal.setRadiusX(radio);
+    arcoTemporal.setRadiusY(radio);
+    arcoTemporal.setStartAngle(-angle - 90); // Centrado respecto al ratón
+    arcoTemporal.setLength(180);
+
+    // Línea guía
+    lineaCompas.setStartX(centroCompas.getX());
+    lineaCompas.setStartY(centroCompas.getY());
+    lineaCompas.setEndX(event.getX());
+    lineaCompas.setEndY(event.getY());
+    
+    }else if ("Linea".equals(activeTool) && lineaTemporal != null) {
+        lineaTemporal.setEndX(event.getX());
+        lineaTemporal.setEndY(event.getY());
+    }
+    });
+
+    
+       
+       
+       
+       
+       
+       
+       
+       drawingPane.setOnMouseReleased(event -> {
+        if ("Arc".equals(activeTool)) {
+    // Limpiar temporal
+         Circle puntoCentro = new Circle(event.getX(), event.getY(), 5, colorpunto.getValue());
+        drawingPane.getChildren().add(puntoCentro);
+        arcoTemporal = null;
+        centroCompas = null;
+
+    if (lineaCompas != null) {
+        drawingPane.getChildren().remove(lineaCompas);
+        lineaCompas = null;
+    }
+        }else if ("Linea".equals(activeTool)) {
+            if (lineaTemporal != null) {
+            // Al finalizar, también añadimos un punto donde termina la línea
+           Circle c = new Circle(lineaTemporal.getEndX(), lineaTemporal.getEndY(), 5, colorpunto.getValue());
+            drawingPane.getChildren().add(c);
+        }
+        lineaTemporal = null;
+        inicioLinea = null;
+        }
+        });
+       
+       
       
     }
     private void marcarPunt(double x, double y){
          
-        Circle c = new Circle(x, y, 5, javafx.scene.paint.Color.GREEN);
-        drawingPane.getChildren().add(c);
+        Circle c = new Circle(x, y, 5, new javafx.scene.paint.Color(
+        colorpunto.getValue().getRed(),
+        colorpunto.getValue().getGreen(),
+        colorpunto.getValue().getBlue(),
+        1.0));
+    drawingPane.getChildren().add(c);
     }
      private Point2D primerPunt = null;
      
-   private void seleccionarPuntsPerLinia(double x, double y) {
-       System.out.println("Estado de primerPunt: " + primerPunt);
-        if (primerPunt == null) {
-            primerPunt = new Point2D(x, y);
-            System.out.println("Primer punto guardado en: " + primerPunt);
-            
-        } else {
-            System.out.println("Segundo punto recibido. Dibujando línea.");
-            Line l = new Line(primerPunt.getX(), primerPunt.getY(), x, y);
-            l.setStroke(javafx.scene.paint.Color.GREEN);
-            l.setStrokeWidth(2);
-            drawingPane.getChildren().add(l);
-            primerPunt = null;
-        }
-    }
-    private Point2D centreArc = null;
-    
-    private void seleccionarDadesPerArc(double x, double y) {
-        if (centreArc == null) {
-            centreArc = new Point2D(x, y);
-        } else {
-            double radi = centreArc.distance(x, y);
-            Arc arc = new Arc(centreArc.getX(), centreArc.getY(), radi, radi, 0, 180);
-            arc.setType(ArcType.OPEN);
-            arc.setStroke(javafx.scene.paint.Color.GREEN);
-            arc.setFill(null);
-            arc.setStrokeWidth(2);
-            drawingPane.getChildren().add(arc);
-            centreArc = null;
-        }
-    }
     
     private void escriureText(double x, double y) {
         TextInputDialog dialog = new TextInputDialog();
@@ -512,26 +606,41 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleLinea(ActionEvent event) {
         activeTool = "Linea";
+        map_scrollpane.setPannable(false);
+        actualizarVisibilidadColorPicker();
+        colorpunto.setVisible(true);
     }
 
     @FXML
     private void handleArc(ActionEvent event) {
         activeTool = "Arc";
+        map_scrollpane.setPannable(false);
+        actualizarVisibilidadColorPicker();
+        colorpunto.setVisible(true);
     }
 
     @FXML
     private void handleText(ActionEvent event) {
         activeTool = "Text";
+        map_scrollpane.setPannable(true);
+        actualizarVisibilidadColorPicker();
+        colorpunto.setVisible(false);
     }
 
     @FXML
     private void handlePunto(ActionEvent event) {
          activeTool = "Punt";
+         map_scrollpane.setPannable(true);
+         actualizarVisibilidadColorPicker();
+         colorpunto.setVisible(true);
     }
     
      @FXML
     private void handleGoma(ActionEvent event) {
         activeTool = "Goma";
+        map_scrollpane.setPannable(true);
+        colorpunto.setVisible(false);
+        
         
     }
     
@@ -615,25 +724,98 @@ private double distanciaPuntALinea(double px, double py, double x1, double y1, d
 
     @FXML
     private void borrarTodo(ActionEvent event) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Vols esborrar tot?", ButtonType.YES, ButtonType.NO);
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Quieres borrarlo todo?", ButtonType.YES, ButtonType.NO);
         alerta.setTitle("Confirmació");
         Optional<ButtonType> resultat = alerta.showAndWait();
 
         if (resultat.isPresent() && resultat.get() == ButtonType.YES) {
             drawingPane.getChildren().removeIf(node -> !(node instanceof ImageView));
             primerPunt = null;
-            centreArc = null;
         }
 
     }
-
-   
-   
-            
-        
     
+   private ImageView reglaImageView;
+    @FXML
+    private void handleRegla(ActionEvent event) {
+     if (btnRegla.isSelected()) {
+        if (reglaImageView == null) {
+            reglaImageView = crearHerramientaVisual("regla.png", 300, 300);
+            drawingPane.getChildren().add(reglaImageView);
         }
+    } else {
+        if (reglaImageView != null) {
+            drawingPane.getChildren().remove(reglaImageView);
+            reglaImageView = null;
+        }
+    }
+}
+private ImageView transportadorImageView;
+    @FXML
+    private void handleTransportador(ActionEvent event) {
+       if (btnTransportador.isSelected()) {
+        if (transportadorImageView == null) {
+            transportadorImageView = crearHerramientaVisual("transportador.png", 200, 200);
+            drawingPane.getChildren().add(transportadorImageView);
+        }
+    } else {
+        if (transportadorImageView != null) {
+            drawingPane.getChildren().remove(transportadorImageView);
+            transportadorImageView = null;
+        }
+    }
+    }
+    
+    
+   private ImageView crearHerramientaVisual(String nombreImagen, double x, double y) {
+    Image img = new Image(getClass().getResourceAsStream("/resources/" + nombreImagen));
+    ImageView herramienta = new ImageView(img);
+    if (nombreImagen.equals("transportador.png")){
+    herramienta.setFitWidth(300);
+    }else{
+     herramienta.setFitWidth(600);
+    }
+    herramienta.setPreserveRatio(true);
+    herramienta.setLayoutX(x);
+    herramienta.setLayoutY(y);
+
+    final Delta dragDelta = new Delta();
+    herramienta.setOnMousePressed(event -> {
+        dragDelta.x = event.getX();
+        dragDelta.y = event.getY();
+        herramienta.toFront();
+        map_scrollpane.setPannable(false);
+    });
+
+    herramienta.setOnMouseDragged(event -> {
+        herramienta.setLayoutX(event.getSceneX() - dragDelta.x);
+        herramienta.setLayoutY(event.getSceneY() - dragDelta.y);
+    });
+
+    herramienta.setOnMouseReleased(event -> {
+        map_scrollpane.setPannable(true);
+    });
+
+    herramienta.setOnScroll(event -> {
+        if (event.isShiftDown()) {
+            herramienta.setRotate(herramienta.getRotate() + event.getDeltaY() / 10);
+        }
+    });
+
+    return herramienta;
+}
+
+    private static class Delta {
+    double x, y;
+}
+    private void actualizarVisibilidadColorPicker() {
+    boolean visible = btnPunt.isSelected() || btnLinea.isSelected() || btnArc.isSelected();
+    colorpunto.setDisable(!visible);
+}
+}
+
                 
+    
 
 
 
